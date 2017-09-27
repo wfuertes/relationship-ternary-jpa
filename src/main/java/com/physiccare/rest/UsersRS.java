@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.slugify.Slugify;
 import com.physiccare.dto.CreateUserData;
 import com.physiccare.dto.UserCreated;
 import com.physiccare.dto.UserCreated.Urbs;
@@ -23,6 +22,7 @@ import com.physiccare.repository.BusinessRepository;
 import com.physiccare.repository.RoleRepository;
 import com.physiccare.repository.UserRepository;
 import com.physiccare.repository.UserRoleBusinessRepository;
+import com.physiccare.service.DatabaseService;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -39,12 +39,15 @@ public class UsersRS {
 
 	@Autowired
 	private UserRoleBusinessRepository urbRepository;
+	
+	@Autowired
+	private DatabaseService databaseService;
 
 	@GetMapping
 	public ResponseEntity<String> getUsers() {
 		return ResponseEntity.ok("{\"name\":\"Pedro\"}");
 	}
-
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UserCreated> create(@RequestBody CreateUserData data) {
@@ -57,11 +60,14 @@ public class UsersRS {
 			role.setDescription("Dono do estabecimento");
 			role = roleRepository.save(role);
 		}
+		
+		// Cria SCHEMA
+		String schema = databaseService.createSchema(data.getBusiness());
 
 		// Salva BUSINESS
 		Business business = new Business();
 		business.setName(data.getBusiness());
-		business.setSchema(new Slugify().slugify(data.getBusiness()));
+		business.setSchema(schema);
 		business = businessRepository.save(business);
 
 		// Salva USER
