@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public class UsersRS {
 
 	@Autowired
 	private UserRoleBusinessRepository urbRepository;
-	
+
 	@Autowired
 	private DatabaseService databaseService;
 
@@ -47,9 +48,9 @@ public class UsersRS {
 	public ResponseEntity<String> getUsers() {
 		return ResponseEntity.ok("{\"name\":\"Pedro\"}");
 	}
-	
-	@PostMapping
+
 	@Transactional
+	@PostMapping(consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserCreated> create(@RequestBody CreateUserData data) {
 
 		// Salva ROLE
@@ -60,7 +61,7 @@ public class UsersRS {
 			role.setDescription("Dono do estabecimento");
 			role = roleRepository.save(role);
 		}
-		
+
 		// Cria SCHEMA
 		String schema = databaseService.createSchema(data.getBusiness());
 
@@ -86,7 +87,7 @@ public class UsersRS {
 		UserRoleBusiness urb = new UserRoleBusiness();
 		urb.setId(id);
 		urbRepository.save(urb);
-		
+
 		// Monta RETORNO
 		UserCreated created = new UserCreated();
 		created.setEmail(user.getEmail());

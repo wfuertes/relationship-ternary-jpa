@@ -6,5 +6,66 @@
 </head>
 <body>
 	Hello from physiccare!!!
+
+	<div id="status"></div>
+	<form action="/physiccare/users" method="post" onsubmit="return preventSubmit()">
+		<table>
+			<tr>
+				<td>Nome:</td>
+				<td><input type="text" name="name" value="Willian"></td>
+			</tr>
+			<tr>
+				<td>Empresa:</td>
+				<td><input type="text" name="business" value="lunix"></td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td><input type="text" name="email" value="wfuertes@gmail.com"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="text" name="password" value="321321"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="Salvar" onclick="saveUser()"></td>
+			</tr>
+		</table>
+	</form>
+
+	<script type="text/javascript">
+		function preventSubmit(e) {
+			if (e && e.preventDefault) {
+				e.preventDefault();
+			}
+			return false;
+		}
+		
+		function saveUser() {
+			var data = {
+				name: document.querySelector('input[name="name"]').value,
+				business: document.querySelector('input[name="business"]').value,
+				email: document.querySelector('input[name="email"]').value,
+				password: document.querySelector('input[name="password"]').value
+			};
+			
+			var saveUserRrequest = new Request('/physiccare/users', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			
+			fetch(saveUserRrequest).then(function (response) {
+				return response.json().then(function (user) {
+					document.getElementById('status').innerHTML = JSON.stringify(user, null, 2);
+				});  
+			}).catch(function(error) {
+				console.error(error);
+				alert('Erro ao salvar usuário!');
+			});
+		}
+	</script>
 </body>
 </html>
