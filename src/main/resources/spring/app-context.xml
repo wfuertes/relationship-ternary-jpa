@@ -14,7 +14,11 @@
 
 	<!-- Permite ao spring identificar classe anotadas com @Controller -->
 	<mvc:annotation-driven />
-	
+
+	<mvc:interceptors>
+		<bean id="tenantInterceptor" class="com.physiccare.multitenancy.TenantInterceptor" />
+	</mvc:interceptors>
+
 	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
 
 	<!-- Define a localização das views e o tipo de extensão -->

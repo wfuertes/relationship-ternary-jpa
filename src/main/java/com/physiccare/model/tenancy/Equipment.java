@@ -1,4 +1,4 @@
-package com.physiccare.model;
+package com.physiccare.model.tenancy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,15 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entidades Tenancy não podem ter o schema definido no @table. Ele será
+ * definido a cada request do multitenancy interceptor.
+ * 
+ * @author Willian
+ */
 @Entity
-@Table(schema = "public", name = "businesses")
-public class Business {
-	
+@Table(name = "equipments")
+public class Equipment {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String schema;
+	private String details;
 
 	public Long getId() {
 		return id;
@@ -32,12 +38,12 @@ public class Business {
 		this.name = name;
 	}
 
-	public String getSchema() {
-		return schema;
+	public String getDetails() {
+		return details;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 }
