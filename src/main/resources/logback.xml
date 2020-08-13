@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="logback.xsd">
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>
-			%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-				<!-- %-4relative [%thread] %-5level %class - %msg%n  -->
-			</pattern>
-		</layout>
-	</appender>
+               xsi:noNamespaceSchemaLocation="logback.xsd">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </layout>
+    </appender>
 
-	<logger name="com.matera.pizzaria" level="debug" additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>
+    <logger name="com.physiccare" level="debug" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
-	<root level="INFO">
-		<appender-ref ref="STDOUT" />
-	</root>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
 </configuration>
