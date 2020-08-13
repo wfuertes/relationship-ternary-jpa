@@ -24,26 +24,27 @@ import com.physiccare.repository.UserRepository;
 @RequestMapping(path = "/equipments")
 public class EquipmentRS {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(EquipmentRS.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EquipmentRS.class);
+
+	private final EquipmentRepository repository;
+	private final UserRepository userRepository;
 
 	@Autowired
-	private EquipmentRepository repository;
-
-	@Autowired
-	private UserRepository userRepository;
+	public EquipmentRS(EquipmentRepository repository, UserRepository userRepository) {
+		this.repository = repository;
+		this.userRepository = userRepository;
+	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<EquipmentData> create(@RequestBody EquipmentData data) {
-
-		// teste de utilização de repositorio no schema "public"
-		LOGGER.info(userRepository.findAll().toString());
+		LOGGER.info("Testing repository for 'public' schema: " + userRepository.findAll().toString());
 
 		Equipment equipment = new Equipment();
 		equipment.setName(data.getName());
 		equipment.setDetails(data.getDetails());
 
-		// repositorio do "tencancy" corrent
+		// Tenancy repository
 		equipment = repository.save(equipment);
 		data.setId(equipment.getId());
 
